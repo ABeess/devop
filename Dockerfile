@@ -14,7 +14,6 @@ USER node
 
 RUN yarn
 
-COPY --chown=node:node .next .next
 COPY --chown=node:node public public
 
 EXPOSE 3090
