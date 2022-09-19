@@ -29,7 +29,9 @@ jobs:
 
       # - name: verify
       #   run: echo ${{ steps.docker_build.outputs.digest }}
-
+      permissions:
+        contents: 'read'
+        id-token: 'write'
       - uses: 'actions/checkout@v3'
 
       - id: 'auth'
