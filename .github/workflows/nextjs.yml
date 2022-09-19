@@ -6,32 +6,37 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout/@v2
+
+      - name: Login Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_ACCESSTOKEN }}
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v1
+        id: buildx
+      - name: build and push
+        uses: docker/build-push-action@v2
+        id: docker_build
+        with:
+          context: ./
+          file: ./Dockerfile
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/devop
+
+      - name: verify
+        run: echo ${{ steps.docker_build.outputs.digest }}
+  cloud:
+    name: cloud
+    runs-on: ubuntu-latest
+    steps:
       - name: SSH Remote Commands
-      uses: appleboy/ssh-action@v0.1.2
-      with:
-        key: ${{secrets.GCP_SSH_PRIVATE_KEY}}
-        host: ${{secrets.HOST}}
-        username: ${{secrets.SSH_USER}}
-      # - name: Checkout
-      #   uses: actions/checkout/@v2
-
-      # - name: Login Docker Hub
-      #   uses: docker/login-action@v1
-      #   with:
-      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #     password: ${{ secrets.DOCKERHUB_ACCESSTOKEN }}
-      # - name: Setup Docker Buildx
-      #   uses: docker/setup-buildx-action@v1
-      #   id: buildx
-      # - name: build and push
-      #   uses: docker/build-push-action@v2
-      #   id: docker_build
-      #   with:
-      #     context: ./
-      #     file: ./Dockerfile
-      #     builder: ${{ steps.buildx.outputs.name }}
-      #     push: true
-      #     tags: ${{ secrets.DOCKERHUB_USERNAME }}/devop
-
-      # - name: verify
-      #   run: echo ${{ steps.docker_build.outputs.digest }}
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          key: ${{secrets.GOOGLE_CLOUD_VM_SSH}}
+          host: ${{secrets.GOOGLE_CLOUD_VM_IP}}
+          username: ${{secrets.GOOGLE_CLOUD_VM_USERNAME}}
+          script: |
