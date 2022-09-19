@@ -48,13 +48,13 @@ jobs:
         with:
           instance_name: 'abeesdevop'
           zone: 'asia-southeast1-b'
-          ssh_private_key: '${{ secrets.GCP_SSH_PRIVATE_KEY }}'
-          user: abees
-          passphrase: abees
+          name: ${{ secrets.SSH_USER }}
+          ssh_private_key: ${{ secrets.GCP_SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHARARE }}
           command: 'echo Hello world'
 
       # Example of using the output
       - id: 'test'
         run: |-
-          echo '${{ steps.compute-ssh.outputs.stdout }}'
-          echo '${{ steps.compute-ssh.outputs.stderr }}'
+          echo ${{ steps.compute-ssh.outputs.stdout }}
+          echo ${{ steps.compute-ssh.outputs.stderr }}
