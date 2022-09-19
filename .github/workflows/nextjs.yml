@@ -33,19 +33,9 @@ jobs:
       # - name: verify
       #   run: echo ${{ steps.docker_build.outputs.digest }}
 
-      - uses: 'actions/checkout@v3'
-
-      - id: 'auth'
-        uses: 'google-github-actions/auth@v0'
-        with:
-          # workload_identity_provider: 'projects/weighty-droplet-357309/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
-          # service_account: 'abeesdevop@weighty-droplet-357309.iam.gserviceaccount.com'
-          credentials_json: '${{ secrets.GCP_SSH_PRIVATE_KEY }}'
-
-      - id: 'compute-ssh'
-        uses: 'google-github-actions/ssh-compute@v0'
-        with:
-          instance_name: 'abeesdevop'
-          zone: 'asia-southeast1-b'
-          ssh_private_key: '${{ secrets.GCP_SSH_PRIVATE_KEY }}'
-          command: 'echo Hello world'
+      - name: SSH Remote Commands
+      uses: appleboy/ssh-action@v0.1.2
+      with:
+        key: ${{secrets.GCP_SSH_PRIVATE_KEY}}
+        host: ${{secrets.HOST}}
+        username: ${{secrets.SSH_USER}}
