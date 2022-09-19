@@ -30,14 +30,18 @@ jobs:
       # - name: verify
       #   run: echo ${{ steps.docker_build.outputs.digest }}
 
-      - name: Install SSH Key
-        uses: shimataro/ssh-key-action@v2
+      - uses: 'actions/checkout@v3'
+
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v0'
         with:
-          key: ${{ secrets.GCP_SSH_PRIVATE_KEY }}
-          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
-      - name: Adding Known Hosts
-        run: ssh-keyscan -H 34.143.180.16 >> ~/.ssh/known_hosts
-      - name: pull docker
-        run: docker pull abeesdevjs/devop:latest
-      - name: run docker
-        run: docker run -d -p 3000:3000 abeesdevjs/devop
+          workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
+          service_account: '398713468741@cloudservices.gserviceaccount.com '
+
+      - id: 'compute-ssh'
+        uses: 'google-github-actions/ssh-compute@v0'
+        with:
+          instance_name: 'abeesdevop'
+          zone: 'asia-southeast1-b'
+          ssh_private_key: '${{ secrets.GCP_SSH_PRIVATE_KEY }}'
+          command: 'echo Hello world'
