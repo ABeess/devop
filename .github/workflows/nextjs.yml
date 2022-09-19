@@ -37,5 +37,7 @@ jobs:
           known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
       - name: Adding Known Hosts
         run: ssh-keyscan -H 34.143.180.16 >> ~/.ssh/known_hosts
-      - name: test
-        run: docker
+      - name: pull docker
+        run: docker pull abeesdevjs/devop:latest
+      - name: run docker
+        run: docker run -d -p 3000:3000 abeesdevjs/devop
