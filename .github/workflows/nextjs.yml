@@ -33,9 +33,9 @@ jobs:
       # - name: verify
       #   run: echo ${{ steps.docker_build.outputs.digest }}
 
-      - name: SSH Remote Commands
-      uses: appleboy/ssh-action@v0.1.2
-      with:
-        key: ${{secrets.GCP_SSH_PRIVATE_KEY}}
-        host: ${{secrets.HOST}}
-        username: ${{secrets.SSH_USER}}
+        - name: SSH Remote Commands
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          key: ${{secrets.GCP_SSH_PRIVATE_KEY}}
+          host: ${{secrets.HOST}}
+          username: ${{secrets.SSH_USER}}
