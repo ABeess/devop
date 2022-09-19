@@ -29,17 +29,15 @@ jobs:
 
       - name: verify
         run: echo ${{ steps.docker_build.outputs.digest }}
-  cloud:
-    name: cloud
+    build:
     runs-on: ubuntu-latest
     steps:
-      - name: executing remote ssh commands using password
-        uses: appleboy/ssh-action@master
+      - name: ls -a via OPEN SSH Private Key
+        uses: fifsky/ssh-action@master
         with:
+          command: echo hi
           host: ${{ secrets.HOST }}
-          username: ${{ secrets.SSH_USER }}
-          passphrase: ${{ secrets.SSH_PASSPHARARE }}
-          password: ${{ secrets.SSH_PASSPHARARE }}
-          key: ${{ secrets.GCP_SSH_PRIVATE_KEY }}
-          port: 22
-          script: whoami
+          user: github
+          key: ${{ secrets.GCP_SSH_PRIVATE_KEY}}
+#          pass: ${{ secrets.PASS }}
+          args: "-tt -vvv"
