@@ -39,7 +39,8 @@ jobs:
         uses: 'google-github-actions/auth@v0'
         with:
           workload_identity_provider: 'projects/weighty-droplet-357309/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
-          service_account: 'abeesdevop@weighty-droplet-357309.iam.gserviceaccount.com '
+          service_account: 'abeesdevop@weighty-droplet-357309.iam.gserviceaccount.com'
+          credentials_json: '${{ secrets.GCP_SSH_PRIVATE_KEY }}'
 
       - id: 'compute-ssh'
         uses: 'google-github-actions/ssh-compute@v0'
