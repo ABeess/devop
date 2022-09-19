@@ -48,11 +48,8 @@ jobs:
         with:
           instance_name: 'abeesdevop'
           zone: 'asia-southeast1-b'
-          name: ${{ secrets.SSH_USER }}
-          passphrase: ${{ secrets.SSH_PASSPHARARE }}
+          user: ${{ secrets.SSH_USER }}
           ssh_private_key: ${{ secrets.GCP_SSH_PRIVATE_KEY }}
-          command: 'echo Hello world'
-
       # Example of using the output
       - id: 'test'
         run: |-
