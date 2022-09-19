@@ -1,21 +1,26 @@
-FROM node:lts-alpine
+FROM node:lts as dependencies
 
+WORKDIR /nextapp
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
+
+FROM node:lts as builder
+
+WORKDIR /nextapp
+COPY . .
+COPY --from=dependencies /nextapp/node_modules ./node_modules
+RUN yarn build
+
+FROM node:lts as runner
+
+WORKDIR /nextapp
 ENV NODE_ENV production
-ENV NPM_CONFIG_LOGLEVEL warn
 
-RUN mkdir /home/node/app/ && chown -R node:node /home/node/app
+# COPY --from=builder /nextapp/next.config.js ./
+# COPY --from=builder /nextapp/public ./public
+COPY --from=builder /nextapp/.next ./.next
+COPY --from=builder /nextapp/node_modules ./node_modules
+COPY --from=builder /nextapp/package.json ./package.json
 
-WORKDIR /home/node/app
-
-COPY package.json package.json
-COPY yarn.lock yarn.lock
-
-USER node
-
-RUN yarn
-
-COPY --chown=node:node public public
-
-EXPOSE 3090
-
+EXPOSE 3000
 CMD ["yarn", "start"]

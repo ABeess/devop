@@ -1,4 +1,4 @@
-name: nextjs
+name: devop
 on:
   push:
     branches: ['main']
@@ -25,7 +25,7 @@ jobs:
           file: ./Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/nextjs
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/devop
 
       - name: verify
         run: echo ${{ steps.docker_build.outputs.digest }}
