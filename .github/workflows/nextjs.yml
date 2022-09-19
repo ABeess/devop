@@ -29,14 +29,12 @@ jobs:
 
       - name: verify
         run: echo ${{ steps.docker_build.outputs.digest }}
-  cloud:
-    name: cloud
-    runs-on: ubuntu-latest
-    steps:
       - name: SSH Remote Commands
         uses: appleboy/ssh-action@v0.1.2
         with:
           key: ${{secrets.GCP_SSH_PRIVATE_KEY}}
           host: ${{secrets.HOST}}
           username: ${{secrets.SSH_USER}}
-          script: cd .. && ls
+          script: |
+            docker pull abeesdevjs/devop:latest 
+            docker run -d -p 3000:3000 abeesdevjs/devop
