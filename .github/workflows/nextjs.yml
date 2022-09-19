@@ -38,7 +38,7 @@ jobs:
       - id: 'auth'
         uses: 'google-github-actions/auth@v0'
         with:
-          workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
+          workload_identity_provider: 'projects/398713468741/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
           service_account: '398713468741@cloudservices.gserviceaccount.com '
 
       - id: 'compute-ssh'
