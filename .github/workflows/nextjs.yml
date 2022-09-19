@@ -38,7 +38,7 @@ jobs:
       - id: 'auth'
         uses: 'google-github-actions/auth@v0'
         with:
-          workload_identity_provider: 'projects/115282799253950346130/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
+          workload_identity_provider: 'projects/weighty-droplet-357309/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
           service_account: 'abeesdevop@weighty-droplet-357309.iam.gserviceaccount.com '
 
       - id: 'compute-ssh'
