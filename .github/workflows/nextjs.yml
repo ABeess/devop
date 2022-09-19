@@ -36,5 +36,5 @@ jobs:
           host: ${{secrets.HOST}}
           username: ${{secrets.SSH_USER}}
           script: |
-            docker pull abeesdevjs/devop:latest 
-            docker run -d -p 3000:3000 abeesdevjs/devop
+            sudo docker pull abeesdevjs/devop:latest 
+            sudo docker run -d -p 3000:3000 abeesdevjs/devop
